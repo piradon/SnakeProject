@@ -1,10 +1,10 @@
 import React from 'react';
-import Card from '../Card/Card.js'
+import Board from '../Board/Board.js'
 import './MainWrapper.css';
 
 function MainWrapper() {
   return (
-    <Card></Card>
+    <Board></Board>
   );
 }
 
