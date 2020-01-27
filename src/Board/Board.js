@@ -5,11 +5,13 @@ class Board extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      firstAppleEaten: false,
+      counter:0,
       headOfSnake: 500,
       snakeBodyCoord: [],
       lastPressedKey: "ArrowRight",
       tendency: 1,
-      lenghtOfSnake: 1,
+      lenghtOfSnake: 0,
       appleCoord: [],
       numberOfColumns: parseInt(
         window
@@ -26,6 +28,7 @@ class Board extends React.Component {
     this.handleKeyDown = this.handleKeyDown.bind(this);
     this.moveSnake = this.moveSnake.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);
+    this.moveRestOfSnake = this.moveRestOfSnake.bind(this);
   }
 
   componentWillMount() {
@@ -39,21 +42,32 @@ class Board extends React.Component {
       );
       if (index === 29) {
         this.setState({ appleCoord: appleCoord });
-        console.log(this.state.appleCoord);
       }
     }
   }
 
   componentDidMount() {
     let intervalID = window.setInterval(this.moveSnake, 100);
+    let intervalSnakeTail = window.setInterval(this.moveRestOfSnake, 100);
   }
 
   generateApple() {
     let apple = [];
   }
 
-  handleKeyPress() {return}
-
+  handleKeyPress() {
+    return;
+  }
+  moveRestOfSnake() {
+    let headOfSnake = this.state.headOfSnake;
+    let snakeBodyCoord = this.state.snakeBodyCoord;
+    if (this.state.firstAppleEaten === true) {
+      snakeBodyCoord.push(headOfSnake);
+      this.setState({ snakeBodyCoord: snakeBodyCoord });
+      
+      //console.log(snakeBodyCoord);
+    }
+  }
   moveSnake() {
     const numberOfColumns = this.state.numberOfColumns;
 
@@ -136,21 +150,34 @@ class Board extends React.Component {
     const appleCoord = this.state.appleCoord;
     const snakeBodyCoord = this.state.snakeBodyCoord;
     const headOfSnake = this.state.headOfSnake;
+    let lenghtOfSnake = this.state.lenghtOfSnake;
+    
 
+    
     for (let index = 0; index < numberOfColumns * numberOfRows; index++) {
       if (index === this.state.headOfSnake) {
         items.push(<div className={`square head-of-snake`}></div>);
       } else if (index === appleCoord[0]) {
         items.push(<div className={`square apple`}></div>);
       } else if (appleCoord[0] === headOfSnake) {
-  
         items.push(<div className={`square head-of-snake`}></div>);
         appleCoord.shift();
-        items[0]=<div className={`square a${index}`}></div>;
+
+        items[0] = <div className={`square a${index}`}></div>;
+
+        this.setState({ firstAppleEaten: true });
+        lenghtOfSnake++;
+        this.setState({lenghtOfSnake:lenghtOfSnake});
+        console.log(lenghtOfSnake)
+      } else if (snakeBodyCoord.length >= 2 && snakeBodyCoord.slice(snakeBodyCoord.length-1-lenghtOfSnake,snakeBodyCoord.length-1).includes(index)) { 
+        ///zamiast  snakeBodyCoord.length-2 dac snakeBodyCoord.length-lenghtOfSnake-1
+        
+        items.push(<div className={`square snake-body`}></div>);
       } else {
         items.push(<div className={`square a${index}`}></div>);
       }
     }
+
     // if (
     //   this.state.headOfSnake < 0 ||
     //   this.state.headOfSnake >
