@@ -1,6 +1,7 @@
 :root {
     --number-of-columns:90;
     --number-of-rows:40;
+    --head-of-snake-color: #ccc
 }
 
 .container {
@@ -20,7 +21,7 @@
 }
 
 .head-of-snake {
-    background-color:#ccc;
+    background-color:var(--head-of-snake-color);
 }
 
 .snake-body{
@@ -31,4 +32,8 @@
     background-color:red;
 }
 
-
+.error{
+    z-index:1;
+    background-color:red;
+    
+}
