@@ -1,39 +1,28 @@
 :root {
-    --number-of-columns:90;
-    --number-of-rows:40;
-    --head-of-snake-color: #ccc
+  --number-of-columns: 90;
+  --number-of-rows: 40;
+  --head-of-snake-color: #ccc;
 }
 
 .container {
-    border:10px solid white;
-    display:grid;
-    grid-template-columns:repeat(var(--number-of-columns),1fr)!important;
-    grid-template-rows: repeat(var(--number-of-rows),1fr);    
+  border: 10px solid white;
+  display: grid;
+  grid-template-columns: repeat(var(--number-of-columns), 1fr) !important;
+  grid-template-rows: repeat(var(--number-of-rows), 1fr);
 }
 
 .square {
-
-    background-color: black;
-    /* background-image: url("question_mark.svg");
-    background-repeat:no-repeat;
-    background-position: center center; */
-    
+  background-color: black;
 }
 
 .head-of-snake {
-    background-color:var(--head-of-snake-color);
+  background-color: var(--head-of-snake-color);
 }
 
-.snake-body{
-    background-color:green;
+.snake-body {
+  background-color: green;
 }
 
-.apple{
-    background-color:red;
-}
-
-.error{
-    z-index:1;
-    background-color:red;
-    
+.apple {
+  background-color: red;
 }
