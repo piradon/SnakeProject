@@ -1,13 +1,13 @@
 import React from "react";
-import "./Board.css";
 import Score from "../Board/Score/Score.js";
+import moveSnake from "../api/moveSnake.js";
+import "./Board.css";
 
 class Board extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       interval: 100,
-      intervalBody: 100,
       firstAppleEaten: false,
       headOfSnake: 500,
       historyOfSnakeBodyCoord: [],
@@ -15,20 +15,20 @@ class Board extends React.Component {
       tendency: 1,
       lenghtOfSnake: 0,
       appleCoord: [],
-      numberOfColumns: parseInt(
+      columnsNumber: parseInt(
         window
           .getComputedStyle(document.documentElement)
-          .getPropertyValue("--number-of-columns")
+          .getPropertyValue("--columns-number")
       ),
-      numberOfRows: parseInt(
+      rowNumbers: parseInt(
         window
           .getComputedStyle(document.documentElement)
-          .getPropertyValue("--number-of-rows")
+          .getPropertyValue("--rows-number")
       )
     };
 
     this.handleKeyDown = this.handleKeyDown.bind(this);
-    this.moveSnake = this.moveSnake.bind(this);
+    this.handleMoveSnake = this.handleMoveSnake.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);
     this.moveRestOfSnake = this.moveRestOfSnake.bind(this);
   }
@@ -39,115 +39,51 @@ class Board extends React.Component {
     for (let index = 0; index < 50; index++) {
       appleCoord.push(
         Math.floor(
-          Math.random() * this.state.numberOfColumns * this.state.numberOfRows
+          Math.random() * this.state.columnsNumber * this.state.rowNumbers
         )
       );
-      if (index === 29) {
-        this.setState({ appleCoord: appleCoord });
-      }
     }
+    this.setState({ appleCoord: appleCoord });
   }
 
   componentDidMount() {
-    let intervalID = window.setInterval(this.moveSnake, 100);
+    let intervalID = setInterval(() => {
+      this.handleMoveSnake();
+      this.moveRestOfSnake();
+    }, 100);
 
-    let intervalSnakeTail = window.setInterval(this.moveRestOfSnake, 100);
     this.setState({ interval: intervalID });
-    this.setState({ intervalBody: intervalSnakeTail });
   }
 
   handleKeyPress() {
     return;
   }
 
-  moveRestOfSnake() {
-    let headOfSnake = this.state.headOfSnake;
-    let historyOfSnakeBodyCoord = this.state.historyOfSnakeBodyCoord;
-    if (this.state.firstAppleEaten === true) {
-      historyOfSnakeBodyCoord.push(headOfSnake);
-      this.setState({ historyOfSnakeBodyCoord: historyOfSnakeBodyCoord });
-    }
+  handleMoveSnake() {
+    this.setState(moveSnake);
   }
 
-  moveSnake() {
-    const numberOfColumns = this.state.numberOfColumns;
-
-    if (
-      this.state.lastPressedKey === "ArrowUp" &&
-      this.state.tendency !== this.state.numberOfColumns
-    ) {
-      this.setState({ tendency: -numberOfColumns });
-      this.setState(prevState => {
-        return { headOfSnake: prevState.headOfSnake - numberOfColumns };
-      });
-    } else if (
-      this.state.lastPressedKey === "ArrowUp" &&
-      this.state.tendency === this.state.numberOfColumns
-    ) {
-      this.setState(prevState => {
-        return { headOfSnake: prevState.headOfSnake + numberOfColumns };
-      });
-    } else if (
-      this.state.lastPressedKey === "ArrowRight" &&
-      this.state.tendency !== -1
-    ) {
-      this.setState({ tendency: 1 });
-      this.setState(prevState => {
-        return { headOfSnake: prevState.headOfSnake + 1 };
-      });
-    } else if (
-      this.state.lastPressedKey === "ArrowRight" &&
-      this.state.tendency === -1
-    ) {
-      this.setState(prevState => {
-        return { headOfSnake: prevState.headOfSnake - 1 };
-      });
-    } else if (
-      this.state.lastPressedKey === "ArrowLeft" &&
-      this.state.tendency !== 1
-    ) {
-      this.setState({ tendency: -1 });
-      this.setState(prevState => {
-        return { headOfSnake: prevState.headOfSnake - 1 };
-      });
-    } else if (
-      this.state.lastPressedKey === "ArrowLeft" &&
-      this.state.tendency === 1
-    ) {
-      this.setState(prevState => {
-        return { headOfSnake: prevState.headOfSnake + 1 };
-      });
-    } else if (
-      this.state.lastPressedKey === "ArrowDown" &&
-      this.state.tendency !== -numberOfColumns
-    ) {
-      this.setState({ tendency: numberOfColumns });
-      this.setState(prevState => {
-        return { headOfSnake: prevState.headOfSnake + numberOfColumns };
-      });
-    } else if (
-      this.state.lastPressedKey === "ArrowDown" &&
-      this.state.tendency === -numberOfColumns
-    ) {
-      this.setState(prevState => {
-        return { headOfSnake: prevState.headOfSnake - numberOfColumns };
+  moveRestOfSnake() {
+    if (this.state.firstAppleEaten) {
+      this.setState({
+        historyOfSnakeBodyCoord: [
+          ...this.state.historyOfSnakeBodyCoord,
+          this.state.headOfSnake
+        ]
       });
     }
   }
 
   handleKeyDown(e) {
-    let lastPressedKey = e.key;
-    if (lastPressedKey === this.state.lastPressedKey) {
-      return;
-    } else {
+    if (e.key !== this.state.lastPressedKey) {
       this.setState({ lastPressedKey: e.key });
     }
   }
 
   updateBoard() {
     const items = [];
-    const numberOfColumns = parseInt(this.state.numberOfColumns);
-    const numberOfRows = parseInt(this.state.numberOfRows);
+    const columnsNumber = parseInt(this.state.columnsNumber);
+    const rowNumbers = parseInt(this.state.rowNumbers);
     const appleCoord = this.state.appleCoord;
     const historyOfSnakeBodyCoord = this.state.historyOfSnakeBodyCoord;
     const headOfSnake = this.state.headOfSnake;
@@ -159,7 +95,7 @@ class Board extends React.Component {
       historyOfSnakeBodyCoord.length - 1
     );
 
-    for (let index = 0; index < numberOfColumns * numberOfRows; index++) {
+    for (let index = 0; index < columnsNumber * rowNumbers; index++) {
       if (index === this.state.headOfSnake) {
         items.push(<div className={`square head-of-snake`}></div>);
       } else if (index === appleCoord[0]) {
@@ -167,16 +103,12 @@ class Board extends React.Component {
       } else if (appleCoord[0] === headOfSnake) {
         items.push(<div className={`square head-of-snake`}></div>);
         appleCoord.shift();
-
         items[0] = <div className={`square a${index}`}></div>;
-
-        this.setState({ firstAppleEaten: true });
         lenghtOfSnake++;
-        this.setState({ lenghtOfSnake: lenghtOfSnake });
+        this.setState({ firstAppleEaten: true, lenghtOfSnake: lenghtOfSnake });
       } else if (
         historyOfSnakeBodyCoord.length >= 2 &&
-        currentPositionBodyOfSnake
-          .includes(index)
+        currentPositionBodyOfSnake.includes(index)
       ) {
         items.push(<div className={`square snake-body`}></div>);
       } else {
@@ -194,7 +126,6 @@ class Board extends React.Component {
       );
 
       clearInterval(this.state.interval);
-      clearInterval(this.state.intervalBody);
     }
 
     return items;

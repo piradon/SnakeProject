@@ -1,14 +1,14 @@
 :root {
-  --number-of-columns: 90;
-  --number-of-rows: 40;
+  --columns-number: 90;
+  --rows-number: 40;
   --head-of-snake-color: #ccc;
 }
 
 .container {
   border: 10px solid white;
   display: grid;
-  grid-template-columns: repeat(var(--number-of-columns), 1fr) !important;
-  grid-template-rows: repeat(var(--number-of-rows), 1fr);
+  grid-template-columns: repeat(var(--columns-number), 1fr);
+  grid-template-rows: repeat(var(--rows-number), 1fr);
 }
 
 .square {
