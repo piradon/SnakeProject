@@ -1,11 +1,11 @@
 import React from 'react';
 import Board from '../Board/Board.js'
-import './MainWrapper.css';
+import './GameWrapper.css';
 
-function MainWrapper() {
+function GameWrapper() {
   return (
     <Board></Board>
   );
 }
 
-export default MainWrapper;
+export default GameWrapper;

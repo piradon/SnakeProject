@@ -1,10 +1,10 @@
 import React from 'react';
-import MainWrapper from "./MainWrapper/MainWrapper.js"
+import GameWrapper from "./GameWrapper/GameWrapper.js"
 import './App.css';
 
 function App() {
   return (
-    <MainWrapper/>
+    <GameWrapper/>
   );
 }
 

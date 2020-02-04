@@ -1,5 +1,4 @@
 export default function moveSnake(state) {
-
   switch (state.lastPressedKey) {
     case "ArrowUp":
       return handleArrowUp(state);
@@ -23,12 +22,11 @@ function handleArrowUp(state) {
     return {
       headOfSnake: state.headOfSnake + state.columnsNumber
     };
-  } else {
-    return {
-      headOfSnake: state.headOfSnake - state.columnsNumber,
-      tendency: -state.columnsNumber
-    };
   }
+  return {
+    headOfSnake: state.headOfSnake - state.columnsNumber,
+    tendency: -state.columnsNumber
+  };
 }
 
 function handleArrowDown(state) {
@@ -36,12 +34,11 @@ function handleArrowDown(state) {
     return {
       headOfSnake: state.headOfSnake - state.columnsNumber
     };
-  } else {
-    return {
-      headOfSnake: state.headOfSnake + state.columnsNumber,
-      tendency: state.columnsNumber
-    };
   }
+  return {
+    headOfSnake: state.headOfSnake + state.columnsNumber,
+    tendency: state.columnsNumber
+  };
 }
 
 function handleArrowRight(state) {
@@ -49,12 +46,11 @@ function handleArrowRight(state) {
     return {
       headOfSnake: state.headOfSnake - 1
     };
-  } else {
-    return {
-      headOfSnake: state.headOfSnake + 1,
-      tendency: 1
-    };
   }
+  return {
+    headOfSnake: state.headOfSnake + 1,
+    tendency: 1
+  };
 }
 
 function handleArrowLeft(state) {
@@ -62,12 +58,11 @@ function handleArrowLeft(state) {
     return {
       headOfSnake: state.headOfSnake + 1
     };
-  } else {
-    return {
-      headOfSnake: state.headOfSnake - 1,
-      tendency: -1
-    };
   }
+  return {
+    headOfSnake: state.headOfSnake - 1,
+    tendency: -1
+  };
 }
 
 // if (state.lastPressedKey === "ArrowRight") {

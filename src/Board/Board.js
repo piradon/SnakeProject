@@ -30,26 +30,17 @@ class Board extends React.Component {
     this.handleKeyDown = this.handleKeyDown.bind(this);
     this.handleMoveSnake = this.handleMoveSnake.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);
-    this.moveRestOfSnake = this.moveRestOfSnake.bind(this);
   }
 
   componentWillMount() {
-    let appleCoord = this.state.appleCoord;
-
-    for (let index = 0; index < 50; index++) {
-      appleCoord.push(
-        Math.floor(
-          Math.random() * this.state.columnsNumber * this.state.rowNumbers
-        )
-      );
-    }
-    this.setState({ appleCoord: appleCoord });
+    this.setState({appleCoord: [...Array(30)].map(x => x=Math.floor(
+      Math.random() * this.state.columnsNumber * this.state.rowNumbers
+    ))})
   }
 
   componentDidMount() {
     let intervalID = setInterval(() => {
       this.handleMoveSnake();
-      this.moveRestOfSnake();
     }, 100);
 
     this.setState({ interval: intervalID });
@@ -61,9 +52,6 @@ class Board extends React.Component {
 
   handleMoveSnake() {
     this.setState(moveSnake);
-  }
-
-  moveRestOfSnake() {
     if (this.state.firstAppleEaten) {
       this.setState({
         historyOfSnakeBodyCoord: [
