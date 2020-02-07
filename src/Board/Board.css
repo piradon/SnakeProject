@@ -1,0 +1,28 @@
+:root {
+  --columns-number: 90;
+  --rows-number: 40;
+  --head-of-snake-color: #ccc;
+}
+
+.container {
+  border: 10px solid white;
+  display: grid;
+  grid-template-columns: repeat(var(--columns-number), 1fr);
+  grid-template-rows: repeat(var(--rows-number), 1fr);
+}
+
+.square {
+  background-color: black;
+}
+
+.head-of-snake {
+  background-color: var(--head-of-snake-color);
+}
+
+.snake-body {
+  background-color: green;
+}
+
+.apple {
+  background-color: red;
+}
