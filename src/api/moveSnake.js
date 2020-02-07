@@ -1,47 +1,47 @@
-export default function moveSnake(state) {
+export default function moveSnake(state,props) {
   switch (state.lastPressedKey) {
     case "ArrowUp":
-      return handleArrowUp(state);
+      return handleArrowUp(state,props);
 
     case "ArrowDown":
-      return handleArrowDown(state);
+      return handleArrowDown(state,props);
 
     case "ArrowRight":
-      return handleArrowRight(state);
+      return handleArrowRight(state,props);
 
     case "ArrowLeft":
-      return handleArrowLeft(state);
+      return handleArrowLeft(state,props);
 
     default:
       console.log("");
   }
 }
 
-function handleArrowUp(state) {
-  if (state.tendency === state.columnsNumber) {
+function handleArrowUp(state,props) {
+  if (state.tendency === props.columnsNumber) {
     return {
-      headOfSnake: state.headOfSnake + state.columnsNumber
+      headOfSnake: state.headOfSnake + props.columnsNumber
     };
   }
   return {
-    headOfSnake: state.headOfSnake - state.columnsNumber,
-    tendency: -state.columnsNumber
+    headOfSnake: state.headOfSnake - props.columnsNumber,
+    tendency: -props.columnsNumber
   };
 }
 
-function handleArrowDown(state) {
-  if (state.tendency === -state.columnsNumber) {
+function handleArrowDown(state,props) {
+  if (state.tendency === -props.columnsNumber) {
     return {
-      headOfSnake: state.headOfSnake - state.columnsNumber
+      headOfSnake: state.headOfSnake - props.columnsNumber
     };
   }
   return {
-    headOfSnake: state.headOfSnake + state.columnsNumber,
-    tendency: state.columnsNumber
+    headOfSnake: state.headOfSnake + props.columnsNumber,
+    tendency: props.columnsNumber
   };
 }
 
-function handleArrowRight(state) {
+function handleArrowRight(state,props) {
   if (state.tendency === -1) {
     return {
       headOfSnake: state.headOfSnake - 1
@@ -53,7 +53,7 @@ function handleArrowRight(state) {
   };
 }
 
-function handleArrowLeft(state) {
+function handleArrowLeft(state,props) {
   if (state.tendency === 1) {
     return {
       headOfSnake: state.headOfSnake + 1

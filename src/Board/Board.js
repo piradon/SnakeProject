@@ -14,17 +14,7 @@ class Board extends React.Component {
       lastPressedKey: "ArrowRight",
       tendency: 1,
       lenghtOfSnake: 0,
-      appleCoord: [],
-      columnsNumber: parseInt(
-        window
-          .getComputedStyle(document.documentElement)
-          .getPropertyValue("--columns-number")
-      ),
-      rowNumbers: parseInt(
-        window
-          .getComputedStyle(document.documentElement)
-          .getPropertyValue("--rows-number")
-      )
+      appleCoord: []
     };
 
     this.handleKeyDown = this.handleKeyDown.bind(this);
@@ -33,8 +23,8 @@ class Board extends React.Component {
   }
 
   componentWillMount() {
-    this.setState({appleCoord: [...Array(30)].map(x => x=Math.floor(
-      Math.random() * this.state.columnsNumber * this.state.rowNumbers
+    this.setState({appleCoord: [...Array(30)].map(()=>Math.floor(
+      Math.random() * this.props.columnsNumber * this.props.rowsNumber
     ))})
   }
 
@@ -70,8 +60,8 @@ class Board extends React.Component {
 
   updateBoard() {
     const items = [];
-    const columnsNumber = parseInt(this.state.columnsNumber);
-    const rowNumbers = parseInt(this.state.rowNumbers);
+    const columnsNumber = this.props.columnsNumber;
+    const rowsNumber = this.props.rowsNumber;
     const appleCoord = this.state.appleCoord;
     const historyOfSnakeBodyCoord = this.state.historyOfSnakeBodyCoord;
     const headOfSnake = this.state.headOfSnake;
@@ -83,7 +73,7 @@ class Board extends React.Component {
       historyOfSnakeBodyCoord.length - 1
     );
 
-    for (let index = 0; index < columnsNumber * rowNumbers; index++) {
+    for (let index = 0; index < columnsNumber * rowsNumber; index++) {
       if (index === this.state.headOfSnake) {
         items.push(<div className={`square head-of-snake`}></div>);
       } else if (index === appleCoord[0]) {
